@@ -26,7 +26,7 @@ allprojects {
         compileSdkVersion=33
         versionMajor = 1
         versionMinor = 1
-        versionPatch = 0
+        versionPatch = 1
         versionCode = project.ext.minSdkVersion * 10000000 + project.ext.versionMajor * 10000 +
                 project.ext.versionMinor * 100 + project.ext.versionPatch
         versionName = project.ext.versionMajor + "." + project.ext.versionMinor + "." + project.ext.versionPatch
