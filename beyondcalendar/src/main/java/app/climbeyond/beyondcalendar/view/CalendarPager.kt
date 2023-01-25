@@ -32,10 +32,20 @@ class CalendarPager(val beyondCalendar: BeyondCalendar, context: Context,
     }
 
     init {
+        // Generate id for the view - if this is not done then navigate back to calendar view
+        // causes use of same id crash
+        id = View.generateViewId()
         adapter = Adapter()
         addOnPageChangeListener(onPageChangeListener)
 
         currentItem = getPositionForDate(beyondCalendar.selectedDate)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+
+        clearOnPageChangeListeners()
+        adapter = null
     }
 
     private fun getDateForPosition(position: Int): ZonedDateTime =
