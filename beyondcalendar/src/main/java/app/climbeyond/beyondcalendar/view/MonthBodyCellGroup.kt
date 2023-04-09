@@ -46,8 +46,7 @@ class MonthBodyCellGroup(context: Context, settings: BeyondCalendarSettings,
             dayOfWeekOffset = settings.dayOfWeekOffset
 
             // calculate the date of top-left cell
-            viewFirstDate = month.toInstant().atZone(settings.timeZone.toZoneId())
-                .truncatedTo(ChronoUnit.DAYS).withDayOfMonth(1).let {
+            viewFirstDate = month.truncatedTo(ChronoUnit.DAYS).withDayOfMonth(1).let {
                     val dayOfYearOffset = (-it.dayOfWeek.value + dayOfWeekOffset + 1).let { offset ->
                         if (offset > 0) (offset - DayOfWeek.values().size) else offset
                     }
@@ -109,7 +108,7 @@ class MonthBodyCellGroup(context: Context, settings: BeyondCalendarSettings,
     }
 
     fun getDayView(date: ZonedDateTime): MonthBodyCellDayView? {
-        return childList.getOrNull(ChronoUnit.DAYS.between(
-                viewFirstDate.toInstant(), date.toInstant()).toInt()) as? MonthBodyCellDayView
+        return childList.getOrNull(
+                ChronoUnit.DAYS.between(viewFirstDate, date).toInt()) as? MonthBodyCellDayView
     }
 }
