@@ -8,6 +8,7 @@ import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.content.res.use
 
 internal val ViewGroup.childList: List<View>
     get() = (0 until this.childCount).map {

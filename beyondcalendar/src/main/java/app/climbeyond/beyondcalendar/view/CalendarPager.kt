@@ -3,6 +3,7 @@ package app.climbeyond.beyondcalendar.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -18,7 +19,8 @@ import kotlin.math.max
 class CalendarPager(val beyondCalendar: BeyondCalendar, context: Context,
         attrs: AttributeSet? = null) : ViewPager(context, attrs) {
 
-    private var selectedPage: Int = 0
+    private var selectedPage: Int = -1
+    private var initialized: Boolean = false
 
     private val onPageChangeListener: OnPageChangeListener = object : SimpleOnPageChangeListener() {
         override fun onPageSelected(position: Int) {
@@ -45,6 +47,7 @@ class CalendarPager(val beyondCalendar: BeyondCalendar, context: Context,
         super.onDetachedFromWindow()
 
         clearOnPageChangeListeners()
+        initialized = false
         adapter = null
     }
 
@@ -85,6 +88,15 @@ class CalendarPager(val beyondCalendar: BeyondCalendar, context: Context,
             currentItem = getPositionForDate(beyondCalendar.selectedDate)
         }
 
+        override fun finishUpdate(container: ViewGroup) {
+            super.finishUpdate(container)
+
+            if (!initialized) {
+                beyondCalendar.onInitialized?.invoke(getDateForPosition(selectedPage))
+                initialized = true
+            }
+        }
+
         override fun instantiateItem(container: ViewGroup, position: Int): View {
             val datePos = getDateForPosition(position)
             val view = MonthLayout(context, beyondCalendar.settings, datePos, beyondCalendar.selectedDate).apply {
@@ -97,10 +109,6 @@ class CalendarPager(val beyondCalendar: BeyondCalendar, context: Context,
 
             container.addView(view, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT))
-
-            if (position == selectedPage) {
-                beyondCalendar.onMonthSelected(datePos)
-            }
 
             return view
         }

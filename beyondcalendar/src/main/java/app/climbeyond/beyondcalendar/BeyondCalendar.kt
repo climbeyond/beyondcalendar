@@ -31,6 +31,7 @@ class BeyondCalendar(context: Context, attrs: AttributeSet? = null,
     var selectedDate: ZonedDateTime
         internal set
 
+    var onInitialized: ((date: ZonedDateTime) -> Unit)? = null
     var onMonthSelected: ((date: ZonedDateTime) -> Unit)? = null
     var onDateSelected: ((date: ZonedDateTime) -> Unit)? = null
     var onHeaderTodayClicked: (() -> Unit)? = null
