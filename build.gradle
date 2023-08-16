@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.1'
+        classpath 'com.android.tools.build:gradle:8.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -26,13 +26,14 @@ allprojects {
         compileSdkVersion=33
         versionMajor = 1
         versionMinor = 1
-        versionPatch = 2
+        versionPatch = 3
         versionCode = project.ext.minSdkVersion * 10000000 + project.ext.versionMajor * 10000 +
                 project.ext.versionMinor * 100 + project.ext.versionPatch
         versionName = project.ext.versionMajor + "." + project.ext.versionMinor + "." + project.ext.versionPatch
     }
 }
 
-task clean(type: Delete) {
+
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }

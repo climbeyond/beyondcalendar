@@ -3,32 +3,48 @@ apply plugin: 'kotlin-android'
 
 android {
     namespace 'app.climbeyond.beyondcalendar'
-    compileSdkVersion project.ext.compileSdkVersion
 
     defaultConfig {
+        compileSdk project.ext.compileSdkVersion
         minSdkVersion project.ext.minSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.versionCode
         versionName project.ext.versionName
 
-        libraryVariants.all { variant ->
-            variant.outputs.all { output ->
-                outputFileName = "../../../../builds/beyondcalendar-${project.ext.versionName}.aar"
+        android.variantFilter { variant ->
+            if(variant.buildType.name.endsWith('debug')) {
+                variant.setIgnore(true);
+            }
+        }
+
+        libraryVariants.configureEach { variant ->
+            variant.outputs.configureEach { output ->
+                def name = "beyondcalendar-${versionName}.aar"
+                outputFileName = name
+
+                File apkDir = file("${project.rootDir.absolutePath}/beyondcalendar/build/outputs/aar/${name}")
+                File outDir = file("${project.rootDir.absolutePath}/aar")
+
+                //noinspection ConfigurationAvoidance
+                def task = project.tasks.create("publish-${name}", Copy)
+                task.from apkDir
+                task.into outDir
+                task.include "**/*"
+                task.doLast {
+                    println ">>>publish ${variant.name} success!" +
+                            "\nfrom: ${apkDir}" +
+                            "\ninto: ${outDir}"
+                }
+                variant.getAssembleProvider().configure() {
+                    it.finalizedBy(task)
+                }
             }
         }
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = '11'
-    }
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/java'
+        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_17
     }
 }
 
