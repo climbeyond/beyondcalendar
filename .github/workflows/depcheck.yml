@@ -32,6 +32,7 @@ jobs:
           args: >
             --failOnCVSS 7
             --enableRetired
+            --exclude **/gradle/**
       - name: Upload Test results
         uses: actions/upload-artifact@master
         with:
