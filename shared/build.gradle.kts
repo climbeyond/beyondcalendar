@@ -65,6 +65,7 @@ publishing {
     val GITHUB_TOKEN: String? by project
 
     repositories {
+        version = rootProject.ext.get("versionName") as String
         maven {
             setUrl("https://maven.pkg.github.com/climbeyond/beyondcalendar")
             credentials {
