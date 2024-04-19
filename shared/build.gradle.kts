@@ -3,6 +3,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 plugins {
+    `maven-publish`
+
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
 
@@ -11,7 +13,10 @@ plugins {
 }
 
 kotlin {
-    androidTarget()
+    androidTarget {
+        publishLibraryVariants("release")
+        publishLibraryVariantsGroupedByFlavor = true
+    }
 
     val xcf = XCFramework("BeyondCalendar")
     listOf(
@@ -50,6 +55,21 @@ kotlin {
         compilations.all {
             compilerOptions.configure {
                 freeCompilerArgs.add("-Xexpect-actual-classes")
+            }
+        }
+    }
+}
+
+publishing {
+    val GITHUB_USER: String? by project
+    val GITHUB_TOKEN: String? by project
+
+    repositories {
+        maven {
+            setUrl("https://maven.pkg.github.com/climbeyond/beyondcalendar")
+            credentials {
+                username = GITHUB_USER
+                password = GITHUB_TOKEN
             }
         }
     }
@@ -155,5 +175,5 @@ tasks.create<Copy>("publish-ios") {
     }
 }
 
-tasks.getByName("assemble").finalizedBy("assembleBeyondCalendarXCFramework")
-tasks.getByName("assembleBeyondCalendarXCFramework").finalizedBy("publish-android", "publish-ios")
+//tasks.getByName("assemble").finalizedBy("assembleBeyondCalendarXCFramework")
+//tasks.getByName("assembleBeyondCalendarXCFramework").finalizedBy("publish-android", "publish-ios")
