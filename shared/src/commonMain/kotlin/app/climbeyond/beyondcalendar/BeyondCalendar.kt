@@ -29,6 +29,7 @@ import climbeyond.beyondcalendar.generated.resources.Res
 import climbeyond.beyondcalendar.generated.resources.beyond_calendar_today
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
@@ -54,7 +55,7 @@ class BeyondCalendar(private val settings: Settings, val listener: Listener) {
     internal var currentIsSelectedMonth = mutableStateOf(true)
     internal val currentYear = mutableStateOf(-1)
     internal val currentMonth = mutableStateOf(-1)
-    internal var currentFirstDayOfMonth = mutableStateOf(-1)
+    internal var currentFirstDayOfMonth = mutableStateOf(DayOfWeek.MONDAY)
     internal var currentDaysInMonth = mutableStateOf(-1)
 
     private val headerText = mutableStateOf("")
@@ -67,7 +68,7 @@ class BeyondCalendar(private val settings: Settings, val listener: Listener) {
 
     fun setMonthView(date: LocalDate, isInit: Boolean = false) {
         LocalDate(date.year, date.monthNumber, 1).also {
-            currentFirstDayOfMonth.value = it.dayOfWeek.ordinal + 1
+            currentFirstDayOfMonth.value = it.dayOfWeek
             currentDaysInMonth.value = it.until(it.plus(1, DateTimeUnit.MONTH), DateTimeUnit.DAY)
         }
 

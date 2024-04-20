@@ -2,22 +2,13 @@ package app.climbeyond.beyondcalendar
 
 import androidx.compose.ui.graphics.Color
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 object Settings {
-    enum class WeekStart {
-        MONDAY,
-        TUESDAY,
-        WEDNESDAY,
-        THURSDAY,
-        FRIDAY,
-        SATURDAY,
-        SUNDAY
-    }
-
     val initSelectedDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-    var weekStart = WeekStart.MONDAY
+    var weekStart = DayOfWeek.MONDAY
     var colorHeaderBg = Color(0xFF042941)
     var colorHeaderText = Color(0xFFFFFFFF)
     var colorHeaderIconTint = Color(0xFFFFFFFF)

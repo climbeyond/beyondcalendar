@@ -55,8 +55,16 @@ class CalendarView(private val calendar: BeyondCalendar) {
     internal fun View() {
         val coroutine = rememberCoroutineScope()
 
+        val weekStartOffset = if (calendar.currentFirstDayOfMonth.value == calendar.currentWeekStart.value) {
+            0
+        } else if (calendar.currentFirstDayOfMonth.value > calendar.currentWeekStart.value) {
+            calendar.currentFirstDayOfMonth.value.ordinal - calendar.currentWeekStart.value.ordinal
+        } else {
+            7 - (calendar.currentWeekStart.value.ordinal - calendar.currentFirstDayOfMonth.value.ordinal)
+        }
+
         for (x in 1 .. calendar.currentDaysInMonth.value) {
-            grid[x + calendar.currentFirstDayOfMonth.value - 1] = x.toString()
+            grid[x + weekStartOffset] = x.toString()
         }
 
         Row {
