@@ -1,12 +1,16 @@
 package app.climbeyond.beyondcalendar
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import app.climbeyond.beyondcalendar.ui.Accent
 import app.climbeyond.beyondcalendar.ui.CalendarView
 import app.climbeyond.beyondcalendar.ui.Fonts
+import climbeyond.beyondcalendar.generated.resources.Res
+import climbeyond.beyondcalendar.generated.resources.beyond_calendar_today
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
@@ -29,6 +35,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.until
+import org.jetbrains.compose.resources.vectorResource
 
 
 class BeyondCalendar(private val settings: Settings, val listener: Listener) {
@@ -98,19 +105,46 @@ class BeyondCalendar(private val settings: Settings, val listener: Listener) {
                     .widthIn(min = 341.dp)
                     .fillMaxWidth()
         ) {
-            Text(
-                    text = headerText.value,
+            Row(
                     Modifier
                         .height(48.dp)
-                        .background(settings.colorBgHeader)
-                        .wrapContentHeight(align = Alignment.CenterVertically)
-                        .fillMaxWidth()
-                        .padding(start = 20.dp),
-                    color = MaterialTheme.colors.onPrimary,
-                    fontSize = TextUnit(18f, TextUnitType.Sp),
-                    fontFamily = Fonts.getFontFamily(),
-                    fontWeight = FontWeight.Light,
-            )
+                        .background(settings.colorHeaderBg)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                        text = headerText.value,
+                        Modifier
+                            .weight(1f)
+                            .padding(start = 20.dp),
+                        color = settings.colorHeaderText,
+                        fontSize = TextUnit(18f, TextUnitType.Sp),
+                        fontFamily = Fonts.getFontFamily(),
+                        fontWeight = FontWeight.Light,
+                )
+
+                Box(
+                        Modifier
+                            .padding(end = 5.dp)
+                            .width(48.dp)
+                            .height(48.dp)
+                            .clickable {
+                                val date = Clock.System.now()
+                                    .toLocalDateTime(TimeZone.currentSystemDefault()).date
+
+                                currentSelectedDate.value = date
+                                setMonthView(date)
+                                listener.onHeaderTodayClicked()
+                            },
+                        contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                            imageVector = vectorResource(Res.drawable.beyond_calendar_today),
+                            contentDescription = "drawable icons",
+                            tint = Settings.colorHeaderIconTint
+                    )
+                }
+            }
 
             CalendarView(this@BeyondCalendar).View()
         }

@@ -29,7 +29,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.climbeyond.beyondcalendar.BeyondCalendar
-import app.climbeyond.beyondcalendar.helpers.Colors
+import app.climbeyond.beyondcalendar.Settings
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
@@ -126,7 +126,7 @@ class CalendarView(private val calendar: BeyondCalendar) {
                         weekdays[handleDay],
                         fontSize = 14.sp,
                         fontStyle = FontStyle.Normal,
-                        color = Colors.text_white)
+                        color = Settings.colorDayName)
             }
             handleDay++
             if (handleDay > 6) {
@@ -191,14 +191,14 @@ class CalendarView(private val calendar: BeyondCalendar) {
                 .height(48.dp)
 
             if (calendar.currentIsSelectedMonth.value && selectedDate == dayNumber) {
-                modifier = modifier.background(Colors.bg_primary_dark,
+                modifier = modifier.background(Settings.colorDaySelectedBg,
                         shape = RoundedCornerShape(5.dp))
             }
 
             if (calendar.dateNow.monthNumber == calendar.currentMonth.value
                     && calendar.dateNow.year == calendar.currentYear.value
                     && calendar.dateNow.dayOfMonth == dayNumber) {
-                modifier = modifier.border(1.dp, Colors.white, RoundedCornerShape(5.dp))
+                modifier = modifier.border(1.dp, Settings.colorDayTodayBorder, RoundedCornerShape(5.dp))
             }
 
             Box(
@@ -236,7 +236,7 @@ class CalendarView(private val calendar: BeyondCalendar) {
                 text,
                 fontSize = 14.sp,
                 fontStyle = FontStyle.Normal,
-                color = Colors.text_white
+                color = Settings.colorDayNumber
         )
     }
 }

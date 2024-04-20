@@ -1,6 +1,6 @@
 package app.climbeyond.beyondcalendar
 
-import app.climbeyond.beyondcalendar.helpers.Colors
+import androidx.compose.ui.graphics.Color
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -18,5 +18,11 @@ object Settings {
 
     val initDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     var weekStart = WeekStart.MONDAY
-    var colorBgHeader = Colors.bg_header
+    var colorHeaderBg = Color(0xFF042941)
+    var colorHeaderText = Color(0xFFFFFFFF)
+    var colorHeaderIconTint = Color(0xFFFFFFFF)
+    var colorDayNumber = Color(0xFFFFFFFF)
+    var colorDaySelectedBg = Color(0xFF001C30)
+    var colorDayTodayBorder = Color(0xFFFFFFFF)
+    var colorDayName = Color(0xFFFFFFFF)
 }
