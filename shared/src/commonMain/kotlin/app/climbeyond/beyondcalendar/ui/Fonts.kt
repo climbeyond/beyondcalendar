@@ -25,12 +25,7 @@ object Fonts {
                         Res.font.titillium_web_regular,
                         FontWeight.Normal,
                         FontStyle.Normal,
-                ),
-                Font(
-                        Res.font.titillium_web_semi_bold,
-                        FontWeight.SemiBold,
-                        FontStyle.Normal,
-                ),
+                )
         ))
     }
 }
