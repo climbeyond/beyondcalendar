@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,7 +49,7 @@ class BeyondCalendar(private val settings: Settings, val listener: Listener) {
 
     internal val dateNow = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     internal val currentWeekStart = mutableStateOf(settings.weekStart)
-    internal val currentSelectedDate = mutableStateOf(dateNow)
+    internal val currentSelectedDate = mutableStateOf(settings.initSelectedDate)
 
     internal var currentIsSelectedMonth = mutableStateOf(true)
     internal val currentYear = mutableStateOf(-1)
@@ -63,7 +62,7 @@ class BeyondCalendar(private val settings: Settings, val listener: Listener) {
     internal val accents: MutableMap<Int, MutableList<Accent>> = mutableStateMapOf()
 
     init {
-        setMonthView(settings.initDate, true)
+        setMonthView(settings.initSelectedDate, true)
     }
 
     fun setMonthView(date: LocalDate, isInit: Boolean = false) {
@@ -97,7 +96,7 @@ class BeyondCalendar(private val settings: Settings, val listener: Listener) {
         // First time View composed trigger onInitialized with current month info that could
         // have changed if setMonthView has been called before View and not using Settings
         LaunchedEffect(Unit) {
-            listener.onInitialized(LocalDate(currentYear.value, currentMonth.value, 1))
+            listener.onInitialized(settings.initSelectedDate)
         }
 
         Column(

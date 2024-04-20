@@ -16,7 +16,7 @@ object Settings {
         SUNDAY
     }
 
-    val initDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+    val initSelectedDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     var weekStart = WeekStart.MONDAY
     var colorHeaderBg = Color(0xFF042941)
     var colorHeaderText = Color(0xFFFFFFFF)
