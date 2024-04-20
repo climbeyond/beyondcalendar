@@ -7,8 +7,6 @@ import androidx.compose.ui.text.font.FontWeight
 import climbeyond.beyondcalendar.generated.resources.Res
 import climbeyond.beyondcalendar.generated.resources.titillium_web_light
 import climbeyond.beyondcalendar.generated.resources.titillium_web_regular
-import climbeyond.beyondcalendar.generated.resources.titillium_web_semi_bold
-
 import org.jetbrains.compose.resources.Font
 
 
