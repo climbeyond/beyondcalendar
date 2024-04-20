@@ -146,13 +146,13 @@ afterEvaluate {
 
 tasks.create<Copy>("publish-android") {
     val androidName = "beyondcalendar-${rootProject.extra.get("versionName") as String}.aar"
-    val apkDir = file("${project.rootDir.absolutePath}/shared/build/outputs/aar/shared-release.aar")
+    val apkDir = file("${project.rootDir.absolutePath}/shared/build/outputs/aar/beyondcalendar-release.aar")
     val outDir = file("${project.rootDir.absolutePath}/aar")
 
     from(apkDir)
     into(outDir)
     include("**/*")
-    rename("shared-release.aar", androidName)
+    rename("beyondcalendar-release.aar", androidName)
     doLast {
         println(">>>publish $androidName success!" +
                 "\nfrom: $apkDir" +
@@ -175,6 +175,3 @@ tasks.create<Copy>("publish-ios") {
                 "\ninto: $outXcDir")
     }
 }
-
-//tasks.getByName("assemble").finalizedBy("assembleBeyondCalendarXCFramework")
-//tasks.getByName("assembleBeyondCalendarXCFramework").finalizedBy("publish-android", "publish-ios")
