@@ -13,7 +13,7 @@ extra.apply {
     set("androidCompileSdk", 34)
     set("versionMajor", 0)
     set("versionMinor", 1)
-    set("versionPatch", 1)
+    set("versionPatch", 2)
     set("versionCode",
             ext.get("androidMinSdk") as Int * 10000000
                     + ext.get("versionMajor") as Int * 10000

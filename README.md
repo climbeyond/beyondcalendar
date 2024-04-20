@@ -1,4 +1,5 @@
-BeyondCalendar is an Android calendar library
+BeyondCalendar is an Kotlin multiplatform calendar library that uses compose multiplatform
+for view building.
 
 ![calendar](https://github.com/climbeyond/beyondcalendar/assets/12541406/8685c170-a0e1-434a-8908-23a3b87a9ea1)
 
