@@ -1,12 +1,12 @@
 [versions]
-agp = "8.2.2"
+agp = "8.4.1"
 # Kotlin to Compose compatibility has to match
 # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-compose-compiler = "1.5.11"
+compose-compiler = "1.5.13"
 # Compose multiplatform / org.jetbrains.compose compatibility
 # https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compatibility-and-versioning.html#kotlin-compatibility
 compose-plugin = "1.6.1"
-compose = "1.6.5"
+compose = "1.6.7"
 kotlin = "1.9.23"
 kotlinxDatetime = "0.5.0"
 kotlinxSerializationJson = "1.6.3"

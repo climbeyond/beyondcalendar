@@ -62,6 +62,9 @@ class BeyondCalendar(private val settings: Settings, val listener: Listener) {
 
     internal val accents: MutableMap<Int, MutableList<Accent>> = mutableStateMapOf()
 
+    val selectedDate: LocalDate
+        get() = currentSelectedDate.value
+
     init {
         setMonthView(settings.initSelectedDate, true)
     }
