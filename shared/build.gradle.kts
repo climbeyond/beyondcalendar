@@ -9,7 +9,8 @@ plugins {
     alias(libs.plugins.androidLibrary)
 
     alias(libs.plugins.serialization)
-    alias(libs.plugins.compose)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -53,11 +54,15 @@ kotlin {
 
     targets.all {
         compilations.all {
-            compilerOptions.configure {
-                freeCompilerArgs.add("-Xexpect-actual-classes")
+            compileTaskProvider.configure {
+                compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
             }
         }
     }
+}
+
+compose.resources {
+    publicResClass = true
 }
 
 publishing {
@@ -113,10 +118,6 @@ android {
             excludes += "/values/strings.xml"
             excludes += "/drawable/*"
         }
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     compileOptions {

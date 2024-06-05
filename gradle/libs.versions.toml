@@ -1,19 +1,11 @@
 [versions]
 agp = "8.4.1"
-# Kotlin to Compose compatibility has to match
-# https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-compose-compiler = "1.5.13"
-# Compose multiplatform / org.jetbrains.compose compatibility
-# https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compatibility-and-versioning.html#kotlin-compatibility
-compose-plugin = "1.6.1"
-compose = "1.6.7"
-kotlin = "1.9.23"
-kotlinxDatetime = "0.5.0"
+compose-plugin = "1.6.11"
+kotlin = "2.0.0"
+kotlinxDatetime = "0.6.0"
 kotlinxSerializationJson = "1.6.3"
 
 [libraries]
-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
@@ -22,4 +14,5 @@ kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", v
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 serialization  = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-compose  = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

@@ -4,7 +4,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform).apply(false)
 
     alias(libs.plugins.serialization).apply(false)
-    alias(libs.plugins.compose).apply(false)
+    alias(libs.plugins.jetbrainsCompose).apply(false)
+    alias(libs.plugins.compose.compiler).apply(false)
 }
 
 extra.apply {
@@ -13,7 +14,7 @@ extra.apply {
     set("androidCompileSdk", 34)
     set("versionMajor", 0)
     set("versionMinor", 1)
-    set("versionPatch", 3)
+    set("versionPatch", 4)
     set("versionCode",
             ext.get("androidMinSdk") as Int * 10000000
                     + ext.get("versionMajor") as Int * 10000
