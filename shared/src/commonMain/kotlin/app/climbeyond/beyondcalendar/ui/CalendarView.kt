@@ -76,18 +76,30 @@ class CalendarView(private val calendar: BeyondCalendar) {
         dismissState = rememberDismissState(confirmStateChange = {
             when (it) {
                 DismissValue.DismissedToEnd -> {
-                    calendar.setMonthView(
-                            LocalDate(calendar.currentYear.value, calendar.currentMonth.value, 1)
-                                .minus(1, DateTimeUnit.MONTH))
+                    val minDate = calendar.settings.minDate
+                    val newMonth = LocalDate(
+                        calendar.currentYear.value, calendar.currentMonth.value, 1)
+                        .minus(1, DateTimeUnit.MONTH)
+
+                    if (minDate == null || minDate.toEpochDays() <= newMonth.toEpochDays()) {
+                        calendar.setMonthView(newMonth)
+                    }
+
                     coroutine.launch {
                         dismissState?.animateTo(DismissValue.Default)
                     }
                     true
                 }
                 DismissValue.DismissedToStart -> {
-                    calendar.setMonthView(
-                            LocalDate(calendar.currentYear.value, calendar.currentMonth.value, 1)
-                                .plus(1, DateTimeUnit.MONTH))
+                    val maxDate = calendar.settings.maxDate
+                    val newMonth = LocalDate(
+                        calendar.currentYear.value, calendar.currentMonth.value, 1)
+                        .plus(1, DateTimeUnit.MONTH)
+
+                    if (maxDate == null || maxDate.toEpochDays() >= newMonth.toEpochDays()) {
+                        calendar.setMonthView(newMonth)
+                    }
+
                     coroutine.launch {
                         dismissState?.animateTo(DismissValue.Default)
                     }

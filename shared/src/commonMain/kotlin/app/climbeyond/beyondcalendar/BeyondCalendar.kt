@@ -38,7 +38,7 @@ import kotlinx.datetime.until
 import org.jetbrains.compose.resources.vectorResource
 
 
-class BeyondCalendar(private val settings: Settings, val listener: Listener) {
+class BeyondCalendar(internal val settings: Settings, val listener: Listener) {
 
     interface Listener {
         fun logMessage(message: String)
@@ -67,6 +67,11 @@ class BeyondCalendar(private val settings: Settings, val listener: Listener) {
 
     init {
         setMonthView(settings.initSelectedDate, true)
+    }
+
+    fun setSelectedDate(date: LocalDate) {
+        currentSelectedDate.value = date
+        setMonthView(date)
     }
 
     fun setMonthView(date: LocalDate, isInit: Boolean = false) {
