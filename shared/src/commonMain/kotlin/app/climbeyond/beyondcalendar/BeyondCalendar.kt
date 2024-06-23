@@ -105,7 +105,7 @@ class BeyondCalendar(internal val settings: Settings, val listener: Listener) {
         // First time View composed trigger onInitialized with current month info that could
         // have changed if setMonthView has been called before View and not using Settings
         LaunchedEffect(Unit) {
-            listener.onInitialized(settings.initSelectedDate)
+            listener.onInitialized(currentSelectedDate.value)
         }
 
         Column(
