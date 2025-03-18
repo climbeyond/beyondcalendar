@@ -10,11 +10,11 @@ plugins {
 
 extra.apply {
     set("androidMinSdk", 26)
-    set("androidTargetSdk", 34)
-    set("androidCompileSdk", 34)
+    set("androidTargetSdk", 35)
+    set("androidCompileSdk", 35)
     set("versionMajor", 0)
     set("versionMinor", 1)
-    set("versionPatch", 6)
+    set("versionPatch", 7)
     set("versionCode",
             ext.get("androidMinSdk") as Int * 10000000
                     + ext.get("versionMajor") as Int * 10000

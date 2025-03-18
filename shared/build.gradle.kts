@@ -43,7 +43,7 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
-            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(compose.ui)
             implementation(compose.components.resources)
 
             implementation(libs.kotlinx.datetime)
@@ -121,8 +121,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 
