@@ -14,6 +14,8 @@ plugins {
 }
 
 kotlin {
+    jvmToolchain(21)
+
     androidTarget {
         publishLibraryVariants("release")
         publishLibraryVariantsGroupedByFlavor = true
