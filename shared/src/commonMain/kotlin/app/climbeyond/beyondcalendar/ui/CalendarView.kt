@@ -34,6 +34,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
+import kotlinx.datetime.number
 import kotlinx.datetime.plus
 
 
@@ -41,12 +42,12 @@ import kotlinx.datetime.plus
 class CalendarView(private val calendar: BeyondCalendar) {
 
     private val grid: SnapshotStateMap<Int, String> = mutableStateMapOf(
-            1 to "", 2 to "", 3 to "", 4 to "", 5 to "", 6 to "", 7 to "",
-            8 to "", 9 to "", 10 to "", 11 to "", 12 to "", 13 to "", 14 to "",
-            15 to "", 16 to "", 17 to "", 18 to "", 19 to "", 20 to "", 21 to "",
-            22 to "", 23 to "", 24 to "", 25 to "", 26 to "", 27 to "", 28 to "",
-            29 to "", 30 to "", 31 to "", 32 to "", 33 to "", 34 to "", 35 to "",
-            36 to "", 37 to "", 38 to "", 39 to "", 40 to "", 41 to "", 42 to "",
+        1 to "", 2 to "", 3 to "", 4 to "", 5 to "", 6 to "", 7 to "",
+        8 to "", 9 to "", 10 to "", 11 to "", 12 to "", 13 to "", 14 to "",
+        15 to "", 16 to "", 17 to "", 18 to "", 19 to "", 20 to "", 21 to "",
+        22 to "", 23 to "", 24 to "", 25 to "", 26 to "", 27 to "", 28 to "",
+        29 to "", 30 to "", 31 to "", 32 to "", 33 to "", 34 to "", 35 to "",
+        36 to "", 37 to "", 38 to "", 39 to "", 40 to "", 41 to "", 42 to "",
     )
 
     private val weekdays = arrayListOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
@@ -55,15 +56,16 @@ class CalendarView(private val calendar: BeyondCalendar) {
     internal fun View() {
         val coroutine = rememberCoroutineScope()
 
-        val weekStartOffset = if (calendar.currentFirstDayOfMonth.value == calendar.currentWeekStart.value) {
-            0
-        } else if (calendar.currentFirstDayOfMonth.value > calendar.currentWeekStart.value) {
-            calendar.currentFirstDayOfMonth.value.ordinal - calendar.currentWeekStart.value.ordinal
-        } else {
-            7 - (calendar.currentWeekStart.value.ordinal - calendar.currentFirstDayOfMonth.value.ordinal)
-        }
+        val weekStartOffset =
+            if (calendar.currentFirstDayOfMonth.value == calendar.currentWeekStart.value) {
+                0
+            } else if (calendar.currentFirstDayOfMonth.value > calendar.currentWeekStart.value) {
+                calendar.currentFirstDayOfMonth.value.ordinal - calendar.currentWeekStart.value.ordinal
+            } else {
+                7 - (calendar.currentWeekStart.value.ordinal - calendar.currentFirstDayOfMonth.value.ordinal)
+            }
 
-        for (x in 1 .. calendar.currentDaysInMonth.value) {
+        for (x in 1..calendar.currentDaysInMonth.value) {
             grid[x + weekStartOffset] = x.toString()
         }
 
@@ -78,7 +80,8 @@ class CalendarView(private val calendar: BeyondCalendar) {
                 DismissValue.DismissedToEnd -> {
                     val minDate = calendar.settings.minDate
                     val newMonth = LocalDate(
-                        calendar.currentYear.value, calendar.currentMonth.value, 1)
+                        calendar.currentYear.value, calendar.currentMonth.value, 1
+                    )
                         .minus(1, DateTimeUnit.MONTH)
 
                     if (minDate == null || minDate.toEpochDays() <= newMonth.toEpochDays()) {
@@ -90,10 +93,12 @@ class CalendarView(private val calendar: BeyondCalendar) {
                     }
                     true
                 }
+
                 DismissValue.DismissedToStart -> {
                     val maxDate = calendar.settings.maxDate
                     val newMonth = LocalDate(
-                        calendar.currentYear.value, calendar.currentMonth.value, 1)
+                        calendar.currentYear.value, calendar.currentMonth.value, 1
+                    )
                         .plus(1, DateTimeUnit.MONTH)
 
                     if (maxDate == null || maxDate.toEpochDays() >= newMonth.toEpochDays()) {
@@ -105,28 +110,29 @@ class CalendarView(private val calendar: BeyondCalendar) {
                     }
                     true
                 }
+
                 else -> false
             }
         })
 
         SwipeToDismiss(
-                state = dismissState,
-                modifier = Modifier.padding(vertical = 1.dp),
-                directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
-                dismissThresholds = { _ ->
-                    FractionalThreshold(0.1f)
-                },
-                background = {},
-                dismissContent = {
-                    Column {
-                        WeekRow(0)
-                        WeekRow(1)
-                        WeekRow(2)
-                        WeekRow(3)
-                        WeekRow(4)
-                        WeekRow(5)
-                    }
+            state = dismissState,
+            modifier = Modifier.padding(vertical = 1.dp),
+            directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
+            dismissThresholds = { _ ->
+                FractionalThreshold(0.1f)
+            },
+            background = {},
+            dismissContent = {
+                Column {
+                    WeekRow(0)
+                    WeekRow(1)
+                    WeekRow(2)
+                    WeekRow(3)
+                    WeekRow(4)
+                    WeekRow(5)
                 }
+            }
         )
     }
 
@@ -137,16 +143,17 @@ class CalendarView(private val calendar: BeyondCalendar) {
 
         while (day <= 7) {
             Box(
-                    Modifier
-                        .weight(1f)
-                        .height(48.dp),
-                    Alignment.Center
+                Modifier
+                    .weight(1f)
+                    .height(48.dp),
+                Alignment.Center
             ) {
                 Text(
-                        weekdays[handleDay],
-                        fontSize = 14.sp,
-                        fontStyle = FontStyle.Normal,
-                        color = Settings.colorDayName)
+                    weekdays[handleDay],
+                    fontSize = 14.sp,
+                    fontStyle = FontStyle.Normal,
+                    color = Settings.colorDayName
+                )
             }
             handleDay++
             if (handleDay > 6) {
@@ -158,7 +165,7 @@ class CalendarView(private val calendar: BeyondCalendar) {
 
     @Composable
     private fun WeekRow(rowNo: Int) {
-        val selectedDate = calendar.currentSelectedDate.value.dayOfMonth
+        val selectedDate = calendar.currentSelectedDate.value.day
         var day: String
 
         Row {
@@ -200,8 +207,10 @@ class CalendarView(private val calendar: BeyondCalendar) {
             var modifier = Modifier
                 .padding(2.dp)
                 .clickable {
-                    val date = LocalDate(calendar.currentYear.value,
-                            calendar.currentMonth.value, day.toInt())
+                    val date = LocalDate(
+                        calendar.currentYear.value,
+                        calendar.currentMonth.value, day.toInt()
+                    )
 
                     calendar.currentSelectedDate.value = date
                     calendar.currentIsSelectedMonth.value = true
@@ -211,31 +220,43 @@ class CalendarView(private val calendar: BeyondCalendar) {
                 .height(48.dp)
 
             if (calendar.currentIsSelectedMonth.value && selectedDate == dayNumber) {
-                modifier = modifier.background(Settings.colorDaySelectedBg,
-                        shape = RoundedCornerShape(5.dp))
+                modifier = modifier.background(
+                    Settings.colorDaySelectedBg,
+                    shape = RoundedCornerShape(5.dp)
+                )
             }
 
-            if (calendar.dateNow.monthNumber == calendar.currentMonth.value
-                    && calendar.dateNow.year == calendar.currentYear.value
-                    && calendar.dateNow.dayOfMonth == dayNumber) {
-                modifier = modifier.border(1.dp, Settings.colorDayTodayBorder, RoundedCornerShape(5.dp))
+            if (calendar.dateNow.month.number == calendar.currentMonth.value
+                && calendar.dateNow.year == calendar.currentYear.value
+                && calendar.dateNow.day == dayNumber
+            ) {
+                modifier =
+                    modifier.border(
+                        1.dp,
+                        Settings.colorDayTodayBorder,
+                        RoundedCornerShape(5.dp)
+                    )
             }
 
             Box(
-                    modifier = modifier,
-                    Alignment.Center
+                modifier = modifier,
+                Alignment.Center
             ) {
                 TextNode(day)
 
                 calendar.accents[dayNumber]?.let {
                     Row(
-                            Modifier.padding(top = 30.dp)) {
-                        it.forEach {
+                        Modifier.padding(top = 30.dp)
+                    ) {
+                        it.forEach { accent ->
                             Box(
-                                    Modifier
-                                        .padding(2.dp)
-                                        .background(it.color, RoundedCornerShape(3.dp))
-                                        .size(6.dp)
+                                Modifier
+                                    .padding(2.dp)
+                                    .background(
+                                        accent.color,
+                                        RoundedCornerShape(3.dp)
+                                    )
+                                    .size(6.dp)
                             )
                         }
                     }
@@ -243,20 +264,22 @@ class CalendarView(private val calendar: BeyondCalendar) {
             }
 
         } else {
-            Box(Modifier
-                .padding(2.dp)
-                .weight(1f)
-                .height(48.dp)) {}
+            Box(
+                Modifier
+                    .padding(2.dp)
+                    .weight(1f)
+                    .height(48.dp)
+            ) {}
         }
     }
 
     @Composable
     fun TextNode(text: String) {
         Text(
-                text,
-                fontSize = 14.sp,
-                fontStyle = FontStyle.Normal,
-                color = Settings.colorDayNumber
+            text,
+            fontSize = 14.sp,
+            fontStyle = FontStyle.Normal,
+            color = Settings.colorDayNumber
         )
     }
 }

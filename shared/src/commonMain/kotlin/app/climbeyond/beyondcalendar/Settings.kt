@@ -1,7 +1,7 @@
 package app.climbeyond.beyondcalendar
 
 import androidx.compose.ui.graphics.Color
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone

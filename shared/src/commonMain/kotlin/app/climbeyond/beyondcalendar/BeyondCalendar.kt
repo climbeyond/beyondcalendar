@@ -27,11 +27,12 @@ import app.climbeyond.beyondcalendar.ui.CalendarView
 import app.climbeyond.beyondcalendar.ui.Fonts
 import climbeyond.beyondcalendar.generated.resources.Res
 import climbeyond.beyondcalendar.generated.resources.beyond_calendar_today
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.number
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.until
@@ -75,17 +76,18 @@ class BeyondCalendar(internal val settings: Settings, val listener: Listener) {
     }
 
     fun setMonthView(date: LocalDate, isInit: Boolean = false) {
-        LocalDate(date.year, date.monthNumber, 1).also {
+        LocalDate(date.year, date.month.number, 1).also {
             currentFirstDayOfMonth.value = it.dayOfWeek
-            currentDaysInMonth.value = it.until(it.plus(1, DateTimeUnit.MONTH), DateTimeUnit.DAY)
+            currentDaysInMonth.value =
+                it.until(it.plus(1, DateTimeUnit.MONTH), DateTimeUnit.DAY).toInt()
         }
 
         currentIsSelectedMonth.value = (date.year == currentSelectedDate.value.year
-                && date.monthNumber == currentSelectedDate.value.monthNumber)
+                && date.month.number == currentSelectedDate.value.month.number)
 
         headerText.value = "${date.year}  ${date.month.name}"
         currentYear.value = date.year
-        currentMonth.value = date.monthNumber
+        currentMonth.value = date.month.number
 
         if (!isInit) {
             listener.onMonthSelected(date)
@@ -109,47 +111,47 @@ class BeyondCalendar(internal val settings: Settings, val listener: Listener) {
         }
 
         Column(
-                Modifier
-                    .widthIn(min = 341.dp)
-                    .fillMaxWidth()
+            Modifier
+                .widthIn(min = 341.dp)
+                .fillMaxWidth()
         ) {
             Row(
-                    Modifier
-                        .height(48.dp)
-                        .background(settings.colorHeaderBg)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                Modifier
+                    .height(48.dp)
+                    .background(settings.colorHeaderBg)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                        text = headerText.value,
-                        Modifier
-                            .weight(1f)
-                            .padding(start = 20.dp),
-                        color = settings.colorHeaderText,
-                        fontSize = TextUnit(18f, TextUnitType.Sp),
-                        fontFamily = Fonts.getFontFamily(),
-                        fontWeight = FontWeight.Light,
+                    text = headerText.value,
+                    Modifier
+                        .weight(1f)
+                        .padding(start = 20.dp),
+                    color = settings.colorHeaderText,
+                    fontSize = TextUnit(18f, TextUnitType.Sp),
+                    fontFamily = Fonts.getFontFamily(),
+                    fontWeight = FontWeight.Light,
                 )
 
                 Box(
-                        Modifier
-                            .padding(end = 5.dp)
-                            .width(48.dp)
-                            .height(48.dp)
-                            .clickable {
-                                val date = Clock.System.now()
-                                    .toLocalDateTime(TimeZone.currentSystemDefault()).date
+                    Modifier
+                        .padding(end = 5.dp)
+                        .width(48.dp)
+                        .height(48.dp)
+                        .clickable {
+                            val date = Clock.System.now()
+                                .toLocalDateTime(TimeZone.currentSystemDefault()).date
 
-                                currentSelectedDate.value = date
-                                setMonthView(date)
-                                listener.onHeaderTodayClicked()
-                            },
-                        contentAlignment = Alignment.Center
+                            currentSelectedDate.value = date
+                            setMonthView(date)
+                            listener.onHeaderTodayClicked()
+                        },
+                    contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                            imageVector = vectorResource(Res.drawable.beyond_calendar_today),
-                            contentDescription = "drawable icons",
-                            tint = Settings.colorHeaderIconTint
+                        imageVector = vectorResource(Res.drawable.beyond_calendar_today),
+                        contentDescription = "drawable icons",
+                        tint = Settings.colorHeaderIconTint
                     )
                 }
             }
