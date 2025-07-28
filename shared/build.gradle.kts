@@ -31,6 +31,7 @@ kotlin {
             baseName = "BeyondCalendar"
             xcf.add(this)
             isStatic = true
+            linkerOpts.add("-Xbundle-id=app.climbeyond.beyondcalendar")
         }
     }
 
