@@ -139,9 +139,6 @@ afterEvaluate {
     tasks.getByName("testClasses") {
         onlyIf { return@onlyIf false }
     }
-    tasks.getByName("linkDebugFrameworkIosX64") {
-        onlyIf { return@onlyIf false }
-    }
     tasks.getByName("linkDebugFrameworkIosArm64") {
         onlyIf { return@onlyIf false }
     }
