@@ -23,7 +23,6 @@ kotlin {
 
     val xcf = XCFramework("BeyondCalendar")
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -130,8 +129,10 @@ android {
     }
 }
 
-task("testClasses").doLast {
-    println("This is a dummy testClasses task")
+tasks.register("testClasses") {
+    doLast {
+        println("This is a dummy testClasses task")
+    }
 }
 
 afterEvaluate {
@@ -149,7 +150,7 @@ afterEvaluate {
     }
 }
 
-tasks.create<Copy>("publish-android") {
+tasks.register<Copy>("publish-android") {
     val androidName = "beyondcalendar-${rootProject.extra.get("versionName") as String}.aar"
     val apkDir = file("${project.rootDir.absolutePath}/shared/build/outputs/aar/beyondcalendar-release.aar")
     val outDir = file("${project.rootDir.absolutePath}/aar")
@@ -165,7 +166,7 @@ tasks.create<Copy>("publish-android") {
     }
 }
 
-tasks.create<Copy>("publish-ios") {
+tasks.register<Copy>("publish-ios") {
     // iOS xcFramework copy
     val xcSaveDir = "beyondcalendar-${rootProject.extra.get("versionName") as String}.xcframework"
     val xcDir = file("${project.rootDir.absolutePath}/shared/build/XCFrameworks/release/BeyondCalendar.xcframework")
