@@ -8,7 +8,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 object Settings {
-    val initSelectedDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+    var initSelectedDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     var weekStart = DayOfWeek.MONDAY
 
     var maxDate: LocalDate? = null
