@@ -15,6 +15,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
@@ -40,6 +41,7 @@ import kotlinx.datetime.until
 import org.jetbrains.compose.resources.vectorResource
 
 
+@Stable
 class BeyondCalendar(internal val settings: Settings, val listener: Listener) {
 
     interface Listener {
