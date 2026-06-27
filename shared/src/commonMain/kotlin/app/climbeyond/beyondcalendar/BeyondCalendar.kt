@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -122,41 +123,51 @@ class BeyondCalendar(internal val settings: Settings, val listener: Listener) {
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = headerText.value,
-                    Modifier
-                        .weight(1f)
-                        .padding(start = 20.dp),
-                    color = settings.colorHeaderText,
-                    fontSize = TextUnit(18f, TextUnitType.Sp),
-                    fontFamily = Fonts.getFontFamily(),
-                    fontWeight = FontWeight.Light,
-                )
-
-                Box(
-                    Modifier
-                        .padding(end = 5.dp)
-                        .width(48.dp)
-                        .height(48.dp)
-                        .clickable {
-                            val date = Clock.System.now()
-                                .toLocalDateTime(TimeZone.currentSystemDefault()).date
-
-                            currentSelectedDate.value = date
-                            setMonthView(date)
-                            listener.onHeaderTodayClicked()
-                        },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = vectorResource(Res.drawable.beyond_calendar_today),
-                        contentDescription = "drawable icons",
-                        tint = Settings.colorHeaderIconTint
-                    )
-                }
+                ViewHeader()
             }
 
-            CalendarView(this@BeyondCalendar).View()
+            ViewCalendar()
         }
+    }
+
+    @Composable
+    private fun RowScope.ViewHeader() {
+        Text(
+            text = headerText.value,
+            Modifier
+                .weight(1f)
+                .padding(start = 20.dp),
+            color = settings.colorHeaderText,
+            fontSize = TextUnit(18f, TextUnitType.Sp),
+            fontFamily = Fonts.getFontFamily(),
+            fontWeight = FontWeight.Light,
+        )
+
+        Box(
+            Modifier
+                .padding(end = 5.dp)
+                .width(48.dp)
+                .height(48.dp)
+                .clickable {
+                    val date = Clock.System.now()
+                        .toLocalDateTime(TimeZone.currentSystemDefault()).date
+
+                    currentSelectedDate.value = date
+                    setMonthView(date)
+                    listener.onHeaderTodayClicked()
+                },
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = vectorResource(Res.drawable.beyond_calendar_today),
+                contentDescription = "drawable icons",
+                tint = Settings.colorHeaderIconTint
+            )
+        }
+    }
+
+    @Composable
+    private fun ViewCalendar() {
+        CalendarView(this@BeyondCalendar).View()
     }
 }
