@@ -1,12 +1,10 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
-import java.text.SimpleDateFormat
-import java.util.Date
 
 plugins {
     `maven-publish`
 
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    id("com.android.kotlin.multiplatform.library")
 
     alias(libs.plugins.serialization)
     alias(libs.plugins.jetbrainsCompose)
@@ -16,9 +14,10 @@ plugins {
 kotlin {
     jvmToolchain(21)
 
-    androidTarget {
-        publishLibraryVariants("release")
-        publishLibraryVariantsGroupedByFlavor = true
+    android {
+        namespace = "app.climbeyond.beyondlogin"
+        compileSdk = rootProject.ext.get("androidCompileSdk") as Int
+        minSdk = rootProject.extra.get("androidMinSdk") as Int
     }
 
     val xcf = XCFramework("BeyondCalendar")
@@ -81,51 +80,6 @@ publishing {
                 password = GITHUB_TOKEN
             }
         }
-    }
-}
-
-android {
-    namespace = "app.climbeyond.beyondcalendar"
-    compileSdk = rootProject.ext.get("androidCompileSdk") as Int
-
-    val versionName = rootProject.ext.get("versionName") as String
-
-    androidComponents.beforeVariants {
-        it.enable = run {
-            it.buildType != "debug"
-        }
-    }
-
-    defaultConfig {
-        minSdk = rootProject.extra.get("androidMinSdk") as Int
-
-        buildConfigField("String", "BUILD_TIME", "\"${SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
-                .format(Date())}\"")
-        buildConfigField("String", "VERSION_NAME", "\"${versionName}\"")
-    }
-
-    buildFeatures {
-        buildConfig = true
-        compose = true
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-
-    packaging {
-        resources {
-            excludes += "/values/strings.xml"
-            excludes += "/drawable/*"
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 
