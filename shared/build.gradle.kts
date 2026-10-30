@@ -52,6 +52,12 @@ kotlin {
             implementation(libs.kotlin.serialization)
             implementation(libs.kotlinx.serialization.json)
         }
+
+        androidMain.dependencies {
+        }
+
+        iosMain.dependencies {
+        }
     }
 
     targets.all {
