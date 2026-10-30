@@ -32,7 +32,7 @@ AskUserQuestion tool). Refuse any other version, explaining which ones are allow
 minor or patch above 99 (versionCode formula) and ask the user how to proceed.
 
 Show the commits since the previous release so the user can check what goes in:
-`git log --oneline $(git log -1 --format=%h -G'versionPatch' -- build.gradle.kts)..HEAD`
+`git log --oneline $(git log -1 --format=%h -G'version(Major|Minor|Patch)' -- build.gradle.kts)..HEAD`
 (the last commit that changed the version). If any of them breaks the public API (see CLAUDE.md),
 point it out and suggest a minor or major bump instead of a patch.
 
