@@ -1,0 +1,21 @@
+{
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && git pull --ff-only --quiet >/dev/null 2>&1 || echo \"{\\\"systemMessage\\\": \\\"git pull --ff-only failed: branch is diverged, offline, or local changes conflict. Pull manually.\\\"}\"",
+            "timeout": 30,
+            "statusMessage": "Pulling latest changes"
+          }
+        ]
+      }
+    ]
+  }
+}
