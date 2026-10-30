@@ -15,7 +15,7 @@ kotlin {
     jvmToolchain(21)
 
     android {
-        namespace = "app.climbeyond.beyondlogin"
+        namespace = "app.climbeyond.beyondcalendar"
         compileSdk = rootProject.ext.get("androidCompileSdk") as Int
         minSdk = rootProject.extra.get("androidMinSdk") as Int
     }
